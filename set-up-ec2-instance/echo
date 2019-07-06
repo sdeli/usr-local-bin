@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+# DESCRIPTION:
+#   This script is for setting up an ec2 instance
+#       - it creates a new user
+#       - sets up ssh key for new user
+#       - installs docker
+#
+#    In the "DEPENDENCIES SET BY USER" part you find the dependencies which should be carefully read by the user of the script,
+#    and modified if needed.
+
+# ==== DEPENDENCIES SET BY USER ====
+PRIVATE_KEY_OF_NEW_EC2_INST_PATH="/home/sandor/Documents/sandor.pem"
+NEW_USERS_NAME="sandor"
+OWN_PRIVATE_KEY_PATH="~/.ssh/id_rsa.pub"
+NEW_EC2_IP="18.185.118.249"
+
+# ==== DEPENDENCIES ====
+CREATE_USER_SCRIPT_PATH="./libs/create-user.sh"
+SET_UP_SSH_KEY_SCRIPT_PATH="./libs/set-up-ssh-key.sh"
+INSTALL_DOCKER_SCRIPT_PATH="./libs/install-docker.sh"
+LOGGER="./libs/logger.sh"
+
+# ==== VARIABLES CREATED FROM DEPENDENCIES ====
+EC2_ADDR_OF_DEF_USER="ubuntu@${NEW_EC2_IP}"
+EC2_ADDR_OF_NEW_USER="${NEW_USERS_NAME}@${NEW_EC2_IP}"
+
+OWN_PUBLIC_KEY_FILE_NAME=$(basename "${OWN_PRIVATE_KEY_PATH}")
+CREATE_USER_EXECUTABLE="/home/ubuntu/$(basename "${SET_UP_SSH_KEY_SCRIPT_PATH}")"
+SET_UP_SSH_KEY_EXECUTABLE="/home/ubuntu/$(basename "${INSTALL_DOCKER_SCRIPT_PATH}")"
+INSTALL_DOCKER_EXECUTABLE="/home/ubuntu/$(basename "${CREATE_USER_SCRIPT_PATH}")"
+
+# ==== LOGGING VARIABLE VALUES FOR CHECK ====
+
+source "${LOGGER}"
+echo $LOGS_FILE_PATH
+# FUNCTION DECLARATIONS
+
+createEnvironment() {
+    #echo 'Logging variable values for check:'
+    #echo $PRIVATE_KEY_OF_NEW_EC2_INST_PATH
+    #echo $NEW_USERS_NAME
+    #echo $OWN_PRIVATE_KEY_PATH
+    #echo $CREATE_USER_SCRIPT_PATH
+    #echo $SET_UP_SSH_KEY_SCRIPT_PATH
+    #echo $INSTALL_DOCKER_SCRIPT_PATH
+    #echo $NEW_EC2_IP
+    #echo $EC2_ADDR_OF_DEF_USER
+    #echo $EC2_ADDR_OF_NEW_USER
+    #echo $OWN_PUBLIC_KEY_FILE_NAME
+    #echo $CREATE_USER_EXECUTABLE
+    #echo $SET_UP_SSH_KEY_EXECUTABLE
+    #echo $INSTALL_DOCKER_EXECUTABLE
+}
+
+createNewUserOnEc2() {
+    scp -i "${PRIVATE_KEY_OF_NEW_EC2_INST_PATH}"  "${OWN_PRIVATE_KEY_PATH}" "${EC2_ADDR_OF_DEF_USER}":/home/ubuntu/authorized_keys
+    scp -i "${PRIVATE_KEY_OF_NEW_EC2_INST_PATH}" "${CREATE_USER_SCRIPT_PATH}" "${EC2_ADDR_OF_DEF_USER}":"${CREATE_USER_EXECUTABLE}"
+    ssh -i "${PRIVATE_KEY_OF_NEW_EC2_INST_PATH}" "${EC2_ADDR_OF_DEF_USER}" sudo "${CREATE_USER_EXECUTABLE}"
+}
+
+setUpSshForNewUserOnEc2() {
+    scp -i "${OWN_PRIVATE_KEY_PATH}" "${SET_UP_SSH_KEY_SCRIPT_PATH}" "${EC2_ADDR_OF_NEW_USER}":"${SET_UP_SSH_KEY_EXECUTABLE}"
+    ssh -i "${OWN_PRIVATE_KEY_PATH}" "${EC2_ADDR_OF_NEW_USER}":"${SET_UP_SSH_KEY_EXECUTABLE}"
+}
+
+installDockerOnEc2() {
+    scp -i "${OWN_PRIVATE_KEY_PATH}" "${INSTALL_DOCKER_SCRIPT_PATH}" "${EC2_ADDR_OF_NEW_USER}":"${INSTALL_DOCKER_EXECUTABLE}"
+    ssh -i "${OWN_PRIVATE_KEY_PATH}" "${EC2_ADDR_OF_NEW_USER}" sudo "${INSTALL_DOCKER_EXECUTABLE}"
+    ssh -i /home/sandor/.ssh/sandor.pem ubuntu@18.195.218.167 sudo /home/ubuntu/create-user.sh
+}
+
+# ==== CONTROLLER OF LOGIC ====
+#createNewUserOnEc2
+#setUpSshForNewUserOnEc2
+#installDockerOnEc2

@@ -1,0 +1,9 @@
+0x03e00003 -1 sandor-Lenovo-Flex-2-15 Desktop
+0x05800006  3 sandor-Lenovo-Flex-2-15 Terminal
+0x06600001  0 sandor-Lenovo-Flex-2-15 Head command in Linux with examples - GeeksforGeeks - Google Chrome
+0x05000001  1 sandor-Lenovo-Flex-2-15 open-close-terminal.sh - bin - Visual Studio Code
+0x058016eb  0 sandor-Lenovo-Flex-2-15 sandor@sandor-Lenovo-Flex-2-15 ~
+0x05801939  2 sandor-Lenovo-Flex-2-15 sandor@sandor-Lenovo-Flex-2-15 ~
+0x05801979  0 sandor-Lenovo-Flex-2-15 sandor@sandor-Lenovo-Flex-2-15 ~
+0x05801b55  0 sandor-Lenovo-Flex-2-15 sandor@sandor-Lenovo-Flex-2-15 ~
+0x05801bd7  1 sandor-Lenovo-Flex-2-15 sandor@sandor-Lenovo-Flex-2-15 /usr/local/bin

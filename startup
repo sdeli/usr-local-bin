@@ -1,0 +1,44 @@
+#!/bin/bash
+wmctrl -s 3
+
+gnome-terminal
+sleep 1
+xdotool getactivewindow set_window --name devilspie2
+xdotool type devilspie2
+xdotool key Return
+xdotool getactivewindow windowmove 300 500
+
+wmctrl -s 2
+open-chrome-windows-ws-3.sh &
+sleep 2
+
+wmctrl -s 0
+open-chrome-windows-ws-0.sh
+vstudio &
+
+wmctrl -s 1
+webstorm
+
+# Change Keybindings =================================
+#xmodmap -e "remove Lock = Caps_Lock"
+#
+#xmodmap -e "keycode  66 = Escape NoSymbol Escape"
+#exit_status $? "xmodmap 110"
+#
+#xmodmap -e "keycode  9 = Caps_Lock NoSymbol Caps_Lock"
+#exit_status $? "xmodmap 115"ez
+
+#xmodmap -e "keycode  110 = KP_End KP_1 KP_End KP_1"
+#exit_status $? "xmodmap 110"
+#
+#xmodmap -e "keycode  115 = KP_Down KP_2 KP_Down KP_2"
+#exit_status $? "xmodmap 115"
+#
+#xmodmap -e "keycode  87 = Home NoSymbol Home"
+#exit_status $? "xmodmap 87"
+#
+#xmodmap  -e "keycode  88 = End NoSymbol End"
+#exit_status $? "xmodmap 88"
+
+#wmctrl -s 1
+#webstorm
