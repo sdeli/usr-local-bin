@@ -8,25 +8,7 @@ configureNginx() {
         --group=nginx \
         --sbin-path=/usr/sbin/nginx \
         --conf-path=/etc/nginx/nginx.conf \
-        --with-select_module \
-        --with-poll_module \
-        --with-threads \
-        --with-file-aio \
-        --with-http_ssl_module \
         --with-http_v2_module \
-        --with-http_realip_module \
-        --with-http_addition_module \
-        --with-http_xslt_module \
-        --with-http_xslt_module=dynamic \
-        --with-http_image_filter_module \
-        --with-http_image_filter_module=dynamic \
-        --with-http_geoip_module \
-        --with-http_geoip_module=dynamic \
-        --with-http_sub_module \
-        --with-http_dav_module \
-        --with-http_flv_module \
-        --with-http_mp4_module \
-        --with-http_gunzip_module \
         --with-http_gzip_static_module \
         --with-http_auth_request_module \
         --with-http_random_index_module \
@@ -57,7 +39,7 @@ configureNginx() {
         --with-ld-opt="-Wl,-E"
 }
 
-installNginx() {
+installAndStartNginx() {
     local userName=$1
     local nginxCurrentVersion=$2
 
@@ -71,7 +53,6 @@ installNginx() {
         echo "Please run this createUser script with superuser privilages" 1>&1
         exit 1
     fi
-
 
     sudo apt install \
         build-essential \
@@ -96,8 +77,9 @@ installNginx() {
     sudo useradd -s /sbin/nologin nginx
 
     configureNginx nginxFolderOnAws
-
     sudo make && sudo make install
+    sudo nginx
+    ps aux | grep nginx
 }
 
-installNginx $1 $2
+installAndStartNginx $1 $2
