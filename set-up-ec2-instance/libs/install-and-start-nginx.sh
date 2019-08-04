@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+# nginx path prefix: "/usr/local/nginx"
+# nginx binary file: "/usr/local/nginx/sbin/nginx"
+# nginx modules path: "/usr/local/nginx/modules"
+# nginx configuration prefix: "/usr/local/nginx/conf"
+# nginx configuration file: "/usr/local/nginx/conf/nginx.conf"
+# nginx pid file: "/usr/local/nginx/logs/nginx.pid"
+# nginx error log file: "/usr/local/nginx/logs/error.log"
+# nginx http access log file: "/usr/local/nginx/logs/access.log"
+# nginx http client request body temporary files: "client_body_temp"
+# nginx http proxy temporary files: "proxy_temp"
+# nginx http fastcgi temporary files: "fastcgi_temp"
+# nginx http uwsgi temporary files: "uwsgi_temp"
+# nginx http scgi temporary files: "scgi_temp"
+
 installNginxDependencies() {
     sudo apt install \
         build-essential \
@@ -20,20 +34,31 @@ installNginxDependencies() {
 configureNginx() {
     local nginxFolderOnAws=$1
 
-    "${nginxFolderOnAws}/configure"
+    cd "${nginxFolderOnAws}"
+    ./configure
         --sbin-path=/usr/sbin/nginx \
         --conf-path=/etc/nginx/nginx.conf \
         --with-http_v2_module \
         --with-http_gzip_static_module \
-        --with-pcre
+        --with-pcre \
+        --with-http_ssl_module
+}
+
+createAndStartNginxSystemdService() {
+    local nginxSystemdServiceFilePathOnServer=$1
+
+    mv "${nginxSystemdServiceFilePathOnServer}" /lib/systemd/system/
+    systemctl daemon-reload
+    systemctl start nginx
 }
 
 installAndStartNginx() {
     local userName=$1
     local nginxCurrentVersion=$2
+    local nginxSystemdServiceFilePathOnServer=$3
 
     local usersHomeDir="/home/${userName}"
-    local nginxFolderOnAws="/${usersHomeDir}/nginx-${nginxCurrentVersion}"
+    local nginxFolderOnAws="${usersHomeDir}/nginx-${nginxCurrentVersion}"
     local nginxTarFileNameNewestVersion="nginx-${nginxCurrentVersion}.tar.gz"
     local nginxNewestVersionDownloadUrl="http://nginx.org/download/${nginxTarFileNameNewestVersion}"
 
@@ -61,9 +86,12 @@ installAndStartNginx() {
     cd "${nginxFolderOnAws}"
     sudo make && sudo make install
 
-    sudo nginx
-    ps aux | grep nginx
+    mv "${nginxSystemdServiceFilePathOnServer}" /lib/systemd/system/
+    systemctl daemon-reload
+    systemctl enable nginx
+    systemctl start nginx
+    systemctl status nginx
 }
 
 #installAndStartNginx $1 $2
-installAndStartNginx "sandor" "1.15.8"
+installAndStartNginx $1 $2 $3
