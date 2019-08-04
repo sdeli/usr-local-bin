@@ -31,6 +31,13 @@ installNginxDependencies() {
         libperl-dev
 }
 
+compileNginx() {
+    nginxFolderOnAws=$1
+
+    cd "${nginxFolderOnAws}"
+    sudo make && sudo make install
+}
+
 configureNginx() {
     local nginxFolderOnAws=$1
 
@@ -44,18 +51,23 @@ configureNginx() {
         --with-http_ssl_module
 }
 
-createAndStartNginxSystemdService() {
-    local nginxSystemdServiceFilePathOnServer=$1
-
+runNginxAsSystemdService() {
+    nginxSystemdServiceFilePathOnServer=$1
     mv "${nginxSystemdServiceFilePathOnServer}" /lib/systemd/system/
+
     systemctl daemon-reload
+    systemctl enable nginx
     systemctl start nginx
+    systemctl status nginx
 }
+
 
 installAndStartNginx() {
     local userName=$1
     local nginxCurrentVersion=$2
     local nginxSystemdServiceFilePathOnServer=$3
+    local openSslSubject=$4
+    local nginxConfigFilePath=$5
 
     local usersHomeDir="/home/${userName}"
     local nginxFolderOnAws="${usersHomeDir}/nginx-${nginxCurrentVersion}"
@@ -75,23 +87,35 @@ installAndStartNginx() {
 
     installNginxDependencies
 
+#   download nginx source
     wget -c "http://nginx.org/download/${nginxTarFileNameNewestVersion}" -O "${usersHomeDir}/${nginxTarFileNameNewestVersion}"
     tar -xvzf "${usersHomeDir}/${nginxTarFileNameNewestVersion}" -C "${usersHomeDir}"
     rm -rf "${usersHomeDir}/${nginxTarFileNameNewestVersion}"
-#
+
+    compileNginx "${nginxFolderOnAws}"
+
     sudo useradd -s /sbin/nologin nginx
 
-    configureNginx $nginxFolderOnAws
+    configureNginx "${nginxFolderOnAws}"
 
-    cd "${nginxFolderOnAws}"
-    sudo make && sudo make install
+    runNginxAsSystemdService $nginxSystemdServiceFilePathOnServer
 
-    mv "${nginxSystemdServiceFilePathOnServer}" /lib/systemd/system/
-    systemctl daemon-reload
-    systemctl enable nginx
-    systemctl start nginx
-    systemctl status nginx
+#    create ssl certificate and rsa key
+    mkdir "${nginxFolderOnAws}/ssl"
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -subj "${openSslSubject}" \
+    -keyout "${nginxFolderOnAws}/ssl/self.key" \
+    -out "${nginxFolderOnAws}/ssl/self.crt"
+
+#   create diffhellmans parameter
+    openssl dhparam 2048 -out "${nginxFolderOnAws}/ssl/dhparam.key"
+
+#    restart nginx with correct server config
+    mv "${nginxConfigFilePath}" "${nginxFolderOnAws}"
+    nginxConfigFilePath="${nginxFolderOnAws}/$(basename "${nginxConfigFilePath}")"
+    sudo /usr/local/nginx/sbin/nginx -s stop
+    sudo /usr/local/nginx/sbin/nginx -t -c "${nginxConfigFilePath}"
+    sudo /usr/local/nginx/sbin/nginx -c "${nginxConfigFilePath}"
 }
 
-#installAndStartNginx $1 $2
-installAndStartNginx $1 $2 $3
+installAndStartNginx $1 $2 $3 $4 $5
