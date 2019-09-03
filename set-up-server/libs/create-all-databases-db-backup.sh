@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+mysqldump -u sdeli -pdalias19 --databases $(mysql -usdeli -pdalias19 -e 'show databases' | grep -v 'Database\|information_schema\|performance_schema\|sys\|mysql' | tr -s '\n' ' ') > /home/sandor/all-filtered-databases.sql
