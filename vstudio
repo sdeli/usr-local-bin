@@ -1,0 +1,4 @@
+#!/bin/bash
+../../../opt/VStudio/vstudio &
+sleep 6
+wmctrl -r Valentina Studio -t 0
