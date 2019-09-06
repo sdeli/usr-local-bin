@@ -35,7 +35,8 @@ createUser() {
 }
 
 setUpSshKey() {
-    scp -i "${PRIVATE_KEY_OF_NEW_EC2_INST_PATH}" "${SET_UP_SSH_KEY_SCRIPT_PATH}" "${EC2_ADDR_OF_DEF_USER}":"${SET_UP_SSH_KEY_EC2_PATH}"
+    local setUpSshKeyEc2Path="${STARTUP_SCRIPTS_PATH_ON_EC2}/$(basename "${SET_UP_SSH_KEY_SCRIPT_PATH}")"
+    scp -i "${PRIVATE_KEY_OF_NEW_EC2_INST_PATH}" "${SET_UP_SSH_KEY_SCRIPT_PATH}" "${EC2_ADDR_OF_DEF_USER}":"${setUpSshKeyEc2Path}"
 
     ssh -i "${PRIVATE_KEY_OF_NEW_EC2_INST_PATH}" "${EC2_ADDR_OF_DEF_USER}" \
     "sudo ${SET_UP_SSH_KEY_EC2_PATH} ${NEW_USERS_NAME} ${OWN_PUBLIC_KEY_EC2_PATH}"
@@ -60,31 +61,22 @@ installNginxAndStart() {
     scp -i "${OWN_PRIVATE_KEY_PATH}" "${MIME_TYPES_FILE_PATH}" "${EC2_ADDR_OF_NEW_USER}":"${mimeTypesEc2Path}"
     scp -i "${OWN_PRIVATE_KEY_PATH}" "${INSTALL_AND_START_NGINX_SCRIPT_PATH}" "${EC2_ADDR_OF_NEW_USER}":"${installAndStartNginxEc2PAth}"
 
-    ssh -t -i "${OWN_PRIVATE_KEY_PATH}" "${EC2_ADDR_OF_NEW_USER}" "sudo ${installAndStartNginxEc2PAth}  \
-                                                                        ${NEW_USERS_NAME}  \
-                                                                        ${NGINX_VERSION}  \
-                                                                        ${nginxSystemDEc2Path} \
-                                                                        ${OPEN_SSL_SUBJECT}  \
-                                                                        ${nginxConfigEc2Path} \
-                                                                        ${mimeTypesEc2Path}"
+    ssh -t -i "${OWN_PRIVATE_KEY_PATH}" "${EC2_ADDR_OF_NEW_USER}" "sudo ${installAndStartNginxEc2PAth}"
 }
 
 moveAllMysqlDbsFromSourceServerToDestination() {
-    local moveDbDumpTpEc2Path="${STARTUP_SCRIPTS_PATH_ON_EC2}/$(basename "${MOVE_DB_DUMP_TO_EC2}")"
-
-    echo $moveDbDumpTpEc2Path
-
-    scp -i "${OWN_PRIVATE_KEY_PATH}" "${MOVE_DB_DUMP_TO_EC2}" "${EC2_ADDR_OF_NEW_USER}":"${moveDbDumpTpEc2Path}"
-
-    ssh -t -i "${OWN_PRIVATE_KEY_PATH}" "${EC2_ADDR_OF_NEW_USER}" "sudo ${moveDbDumpTpEc2Path}  \
-                                                                        ${SOURCE_SERVER_MYSQL_USER}  \
-                                                                        ${SOURCE_SERVER_MYSQL_PWD}  \
-                                                                        ${DB_SOURCE_SERVER_ADDRESS}  \
-                                                                        ${DUMP_FILES_NAME}  \
-                                                                        ${UPLOAD_FOLDER_ON_EC2}  \
-                                                                        ${DOWNLOADS_fOLDER}  \
-                                                                        ${DB_SOURCE_SERVER_ADDRESS} \
-                                                                        ${DESTINATION_SERVER_SSH_PUBLIC_KEY_PATH}"
+    cd $(dirname $MOVE_DB_DUMP_TO_EC2)
+    local moveDpDumpToEc2Ec2PAth="./$(basename $MOVE_DB_DUMP_TO_EC2)"
+    echo $DUMP_FILES_NAME $UPLOAD_FOLDER_ON_EC2 $DOWNLOADS_fOLDER
+    sudo ${moveDpDumpToEc2Ec2PAth}  \
+    ${DB_SOURCE_SERVER_ADDRESS}  \
+    ${SOURCE_SERVER_MYSQL_USER}  \
+    ${SOURCE_SERVER_MYSQL_PWD}  \
+    ${EC2_ADDR_OF_NEW_USER}  \
+    ${OWN_PRIVATE_KEY_PATH} \
+    ${DUMP_FILES_NAME}  \
+    ${UPLOAD_FOLDER_ON_EC2}  \
+    ${DOWNLOADS_fOLDER}
 }
 
 #createStartupScriptsFolderOnServer
