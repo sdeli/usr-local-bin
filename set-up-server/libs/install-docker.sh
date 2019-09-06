@@ -16,7 +16,7 @@ installDocker() {
         ca-certificates \
         curl \
         gnupg-agent \
-        software-properties-common
+        software-properties-common -y
 
     echo 'added official gpg key' 1>&1
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -33,7 +33,7 @@ installDocker() {
     sudo apt-get update
 
     echo 'installing docker' 1>&1
-    sudo apt-get install docker-ce docker-ce-cli containerd.io
+    sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 
     echo 'running docker hello world' 1>&1
     sudo docker run hello-world
