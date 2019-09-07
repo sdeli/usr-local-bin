@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+echo "========================="
+echo "CREATING USER"
+echo "========================="
+
+# ==== DEPENDENCIES ====
+readonly USERNAME=$1
+readonly PASSWORD=$2
+# ==== DEPENDENCIES END ====
+
 createUser() {
     local userName=$1
     local password=$2
@@ -19,13 +28,15 @@ createUser() {
     fi
 
     echo 'creating new user' 1>&1
-    sudo adduser --quiet --disabled-password --shell /bin/bash --home "${usersHomeDir}" --gecos '*1' $userName
+    sudo adduser --quiet --disabled-password --shell /bin/bash --home "${usersHomeDir}" --gecos '*1' "${userName}"
 
-    echo 'changing password for new user' 1>&1
-    echo "${userName}:${password}" | sudo chpasswd
-
-    echo "entry into /etc/sudoers that sudo command for ${userName} that it doesnt need a password" 1>&1
-    echo "${userName} ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers tee
+#    echo 'changing password for new user' 1>&1
+#    echo "${userName}:${password}" | sudo chpasswd
+#
+#    echo "entry into /etc/sudoers that sudo command for ${userName} that it doesnt need a password" 1>&1
+#    echo "${userName} ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers tee
 }
 
-createUser $1 $2
+createUser \
+$USERNAME \
+$PASSWORD

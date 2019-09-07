@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
-SOURCE_SERVER_ADDRESS=$1
-SOURCE_SERVER_MYSQL_USER=$2
-SOURCE_SERVER_MYSQL_PWD=$3
-DESTINATION_SERVER_ADDRESS=$4
-DESTINATION_SERVER_SSH_PRIVATE_KEY_PATH=$5
-DUMP_FILES_NAME=${6:-"all_databases.sql"}
-UPLOAD_FOLDER_ON_TARGET_SERVER=${7:-"/home/sandor/db"}
-DOWNLOADS_fOLDER=${8:-"/home/sandor/Downloads"}
+echo "=================================="
+echo "MOVING MYSQL DB DUMP TO NEW SERVER"
+echo "=================================="
 
-DUMP_FILES_PATH="${HOME}/${DUMP_FILES_NAME}"
+# ==== DEPENDENCIES ====
+readonly SOURCE_SERVER_ADDRESS=$1
+readonly SOURCE_SERVER_MYSQL_USER=$2
+readonly SOURCE_SERVER_MYSQL_PWD=$3
+readonly DESTINATION_SERVER_ADDRESS=$4
+readonly DESTINATION_SERVER_SSH_PRIVATE_KEY_PATH=$5
+readonly DUMP_FILES_NAME=${6:-"all_databases.sql"}
+readonly UPLOAD_FOLDER_ON_TARGET_SERVER=${7:-"/home/sandor/db"}
+readonly DOWNLOADS_fOLDER=${8:-"/home/sandor/Downloads"}
+# ==== DEPENDENCIES END ====
+
+readonly DUMP_FILES_PATH="${HOME}/${DUMP_FILES_NAME}"
 
 createDbDumpOnRemoteServer() {
     local exportDbDumpForAllDbs="./modules/create-all-databases-db-backup.sh"

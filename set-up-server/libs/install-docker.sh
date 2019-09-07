@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
+echo "========================="
+echo "INSTALLING DOCKER"
+echo "========================="
 
 installDocker() {
-    if [[ $UID != 0 ]]
-    then
-        echo "Please run this installDocker script with superuser privilages" 1>&1
-        exit 1
-    fi
-    echo 'run'
+
     echo 'updating apt-get repo' 1>&1
     sudo apt-get update
 

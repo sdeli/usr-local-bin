@@ -18,8 +18,8 @@
 
 source ./set_up_ec2_instance_globals.sh;
 
-STARTUP_SCRIPTS_PATH_ON_EC2="/home/${NEW_USERS_NAME}/startup-scripts"
-OWN_PUBLIC_KEY_EC2_PATH="${STARTUP_SCRIPTS_PATH_ON_EC2}/$(basename "${OWN_PUBLIC_KEY_PATH}")"
+readonly STARTUP_SCRIPTS_PATH_ON_EC2="/home/${NEW_USERS_NAME}/startup-scripts"
+readonly OWN_PUBLIC_KEY_EC2_PATH="${STARTUP_SCRIPTS_PATH_ON_EC2}/$(basename "${OWN_PUBLIC_KEY_PATH}")"
 
 createUser() {
     local createUserEc2Path="/home/ubuntu/$(basename "${CREATE_USER_SCRIPT_PATH}")"
@@ -101,9 +101,9 @@ moveAllMysqlDbsFromSourceServerToDestination() {
     [[ $? > 0 ]] && exit "There was a problem during moving db dump from one server to the other+"
 }
 
-#createUser
-setUpSshKey
-createStartupScriptsFolderOnServer
+createUser
+#setUpSshKey
+#createStartupScriptsFolderOnServer
 #installDocker
 #installNginxAndStart
 #moveAllMysqlDbsFromSourceServerToDestination

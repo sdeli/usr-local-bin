@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
+echo "========================="
+echo "SETTING UP SSH KEY"
+echo "========================="
+
+# ==== DEPENDENCIES ====
+readonly USERNAME=$1
+readonly PUBLIC_KEY_FILE_PATH=$2
+# ==== DEPENDENCIES END ====
+
 setUpSshKey() {
-    local userName=$1
-    local publicKeyFilePath=$2
 
     if [[ $UID != 0 ]]
     then
@@ -33,4 +40,6 @@ setUpSshKey() {
     rm "${publicKeyFilePath}"
 }
 
-setUpSshKey $1 $2
+setUpSshKey \
+$USERNAME \
+$PUBLIC_KEY_FILE_PATH
