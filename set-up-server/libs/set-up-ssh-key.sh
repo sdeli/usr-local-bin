@@ -9,6 +9,8 @@ readonly PUBLIC_KEY_FILE_PATH=$2
 # ==== DEPENDENCIES END ====
 
 setUpSshKey() {
+    userName=$1
+    publicKeyFilePath=$2
 
     if [[ $UID != 0 ]]
     then

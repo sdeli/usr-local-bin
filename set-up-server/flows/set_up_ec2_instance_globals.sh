@@ -6,7 +6,6 @@ readonly OWN_PRIVATE_KEY_PATH="/home/sandor/.ssh/id_rsa"
 readonly CREATE_USER_SCRIPT_PATH="../libs/create-user.sh"
 readonly SET_UP_SSH_KEY_SCRIPT_PATH="../libs/set-up-ssh-key.sh"
 readonly INSTALL_DOCKER_SCRIPT_PATH="../libs/install-docker.sh"
-readonly NGINX_SYSTEMD_SERVICE_FILE_PATH="../libs/nginx.service"
 readonly INSTALL_AND_START_NGINX_SCRIPT_PATH="../libs/install-and-start-nginx/index.sh"
 readonly MIME_TYPES_FILE_PATH="../libs/mime.types"
 readonly NGINX_CONFIG_FILE_PATH="../libs/nginx.conf.sh"
@@ -18,7 +17,7 @@ readonly NEW_SERVER_SSH_PUBLIC_KEY_PATH="/home/sandor/Documents/aws-ssh-key.pem"
 #[[ $NEW_USERS_NAME = "" ]] && NEW_USERS_NAME="aaa" || a="ddd"
 
 read -p 'New ec2 servers ip: ' NEW_EC2_IP
-[[ $NEW_EC2_IP = "" ]] && NEW_EC2_IP="18.188.11.138"
+[[ $NEW_EC2_IP = "" ]] && NEW_EC2_IP="18.223.143.155"
 
 read -p 'New ec2 users name: ' NEW_USERS_NAME
 [[ $NEW_USERS_NAME = "" ]] && NEW_USERS_NAME="sandor"

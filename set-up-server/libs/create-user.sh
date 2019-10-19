@@ -30,11 +30,11 @@ createUser() {
     echo 'creating new user' 1>&1
     sudo adduser --quiet --disabled-password --shell /bin/bash --home "${usersHomeDir}" --gecos '*1' "${userName}"
 
-#    echo 'changing password for new user' 1>&1
-#    echo "${userName}:${password}" | sudo chpasswd
-#
-#    echo "entry into /etc/sudoers that sudo command for ${userName} that it doesnt need a password" 1>&1
-#    echo "${userName} ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers tee
+    echo 'changing password for new user' 1>&1
+    echo "${userName}:${password}" | sudo chpasswd
+
+    echo "entry into /etc/sudoers that sudo command for ${userName} that it doesnt need a password" 1>&1
+    echo "${userName} ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers tee
 }
 
 createUser \

@@ -25,3 +25,7 @@ docker exec -it sandor_db_1 "bash mysql -u sandor -p < /src/all_databases7.sql"
 mysql -uroot --password=passwordhere -h localhost
 sudo docker exec -it sandor_db_1 sh -c 'exec mysql -uroot -pmajom2 -e "source /src/all_databases7.sql"'
 sudo docker exec -it sandor_db_1 sh -c 'exec mysql -uroot -pmajom2 -e "show databases"'
+
+# monitor disk usage
+df -h --total
+

@@ -22,10 +22,7 @@ installDocker() {
     sudo apt-key fingerprint 0EBFCD88
 
     echo 'set up the stable repository' 1>&1
-    sudo add-apt-repository \
-       "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-       $(lsb_release -cs) \
-       stable"
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
     echo 'upgrading apt-get repo after beeing added docker repo' 1>&1
     sudo apt-get update
@@ -35,6 +32,17 @@ installDocker() {
 
     echo 'running docker hello world' 1>&1
     sudo docker run hello-world
+
+    echo 'installing docker compose' 1>&1
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+    echo 'set up port forwarding for ssl tunnel' 1>&1
+#    docker run -d -v /var/run/docker.sock:/var/run/docker.sock -p 127.0.0.1:1234:1234 bobrik/socat TCP-LISTEN:1234,fork UNIX-CONNECT:/var/run/docker.sock
+#    may need it sudo nano /etc/ssh/ssh_config => GatewayPorts yes
+    sudo ncat -lknvp 2375 -c "ncat -U /var/run/docker.sock"
+    ssh -L 8877:localhost:2375 sandor@18.223.143.155
 
     echo 'finished' 1>&1
     exit 0
