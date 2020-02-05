@@ -1,0 +1,19 @@
+#!/bin/bash
+# for the chosen command to be in the command history you need to set: PROMPT_COMMAND="history -a; history -r" in .bashrc
+echo "$PROMPT_COMMAND"
+
+PACKAGE_JSON=./package.json
+
+if [ ! -f "$PACKAGE_JSON" ]; then
+    echo "no package.json file in the current directory"
+    exit 1
+fi
+
+script_name=$(cat package.json | jq -r '.["scripts"]| keys[]' | fzf --height 60% --layout reverse --no-info --border --color 'fg:#52ca51,fg+:#e04156,border:#e8cd02,info:#52ca51,pointer:#52ca51,prompt:#e04156' --prompt='npm run ')
+
+if [ -z "$script_name" ]; then
+    exit 1
+fi
+
+echo "npm run $script_name" >>~/.bash_history
+npm run $script_name

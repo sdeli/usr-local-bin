@@ -14,10 +14,9 @@ sleep 2
 
 wmctrl -s 0
 open-chrome-windows-ws-0.sh
-vstudio &
 
 wmctrl -s 1
-webstorm
+code
 
 # Change Keybindings =================================
 #xmodmap -e "remove Lock = Caps_Lock"

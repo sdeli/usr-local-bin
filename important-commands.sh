@@ -29,3 +29,7 @@ sudo docker exec -it sandor_db_1 sh -c 'exec mysql -uroot -pmajom2 -e "show data
 # monitor disk usage
 df -h --total
 
+# find out where a command lives
+which git
+
+sudo find / -regex '.*linuxbrew.*' -exec rm -rf {} \;
