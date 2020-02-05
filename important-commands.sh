@@ -33,3 +33,5 @@ df -h --total
 which git
 
 sudo find / -regex '.*linuxbrew.*' -exec rm -rf {} \;
+# portforwarding from kubernet pod
+kubectl port-forward $(k get pod | grep 'holidays-to-excel' | cut -f 1 -d " ") 9229:9229
