@@ -45,7 +45,12 @@ fzfHistorySearch() {
 }
 
 fzfHistoryWidget() {
-  LBUFFER="${LBUFFER}$(fzfHistorySearch)"
+  choices=$(fzfHistorySearch)
+  if [ ! -z $choices ];
+  then
+    LBUFFER="${LBUFFER}${choices}"
+  fi
+  
   local ret=$?
   zle reset-prompt
   return $ret
@@ -55,11 +60,17 @@ zle     -N   fzfHistoryWidget
 bindkey 'hs' fzfHistoryWidget
 
 fzfGitBranchDeleteSearch() {
-  echo $(git branch --format='%(refname:short)' | fzf --height 80% --multi --layout reverse --no-info --border --prompt="git branch -D" --color 'fg:#52ca51,fg+:#e04156,border:#e8cd02,info:#52ca51,pointer:#52ca51,prompt:#e04156')
+  prompt=$1
+  echo $(git branch --format='%(refname:short)' | fzf --height 80% --multi --layout reverse --no-info --border --prompt="${prompt}" --color 'fg:#52ca51,fg+:#e04156,border:#e8cd02,info:#52ca51,pointer:#52ca51,prompt:#e04156')
 }
 
 fzfGitBranchDeleteSearchWidget() {
-  LBUFFER="git branch -D ${LBUFFER}$(fzfGitBranchDeleteSearch)"
+  choices=$(fzfGitBranchDeleteSearch 'git branch -D')
+  if [ ! -z $choices ];
+  then
+    LBUFFER="git branch -D ${LBUFFER}${choices}"
+  fi
+
   local ret=$?
   zle reset-prompt
   return $ret
@@ -67,3 +78,18 @@ fzfGitBranchDeleteSearchWidget() {
 
 zle     -N   fzfGitBranchDeleteSearchWidget
 bindkey 'gd' fzfGitBranchDeleteSearchWidget
+
+fzfGitBranchCheckoutSearchWidget() {
+  choices=$(fzfGitBranchDeleteSearch 'git checkout')
+  if [ ! -z $choices ];
+  then
+    LBUFFER="git checkout ${LBUFFER}${choices}"
+  fi
+
+  local ret=$?
+  zle reset-prompt
+  return $ret
+}
+
+zle     -N   fzfGitBranchCheckoutSearchWidget
+bindkey 'ge' fzfGitBranchCheckoutSearchWidget
