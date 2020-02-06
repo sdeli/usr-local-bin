@@ -30,6 +30,11 @@ sudo docker exec -it sandor_db_1 sh -c 'exec mysql -uroot -pmajom2 -e "show data
 df -h --total
 
 # portforwarding from kubernetes pod
+# find out where a command lives
+which git
+
+sudo find / -regex '.*linuxbrew.*' -exec rm -rf {} \;
+# portforwarding from kubernet pod
 kubectl port-forward $(k get pod | grep 'holidays-to-excel' | cut -f 1 -d " ") 9229:9229
 
 # get kube db confign
