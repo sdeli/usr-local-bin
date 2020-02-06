@@ -29,5 +29,16 @@ sudo docker exec -it sandor_db_1 sh -c 'exec mysql -uroot -pmajom2 -e "show data
 # monitor disk usage
 df -h --total
 
-# portforwarding from kubernet pod
+# portforwarding from kubernetes pod
 kubectl port-forward $(k get pod | grep 'holidays-to-excel' | cut -f 1 -d " ") 9229:9229
+
+# get kube db confign
+kubectl get cm -n default holidays-to-excel-db-config -o json | jq '.data'
+
+kubectl get secret -A                   
+
+# get password of db
+kubectl get secret -n default holidays-to-excel-db-secret -o json | jq '.data | to_entries| map({key, value: .value|@base64d})|from_entries' 
+
+# forward db port to localhost
+kubectl port-forward -n db sts/postgres 5432:5432
