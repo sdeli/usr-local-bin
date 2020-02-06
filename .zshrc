@@ -37,8 +37,11 @@ alias myip="curl http://ipecho.net/plain; echo"
 
 PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/sandor/.nvm/versions/node/v10.16.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/sandor/.antigen/bundles/robbyrussell/oh-my-zsh/lib:/home/sandor/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/git:/home/sandor/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/fzf:/home/sandor/.antigen/bundles/zsh-users/zsh-syntax-highlighting:/home/sandor/.antigen/bundles/zsh-users/zsh-autosuggestions:/home/sandor/.antigen/bundles/romkatv/powerlevel10k:/home/sandor/.fzf/bin"
 
+alias gcm="git checkout master"
+alias amm="git commit --amend --no-edit; git push origin HEAD -f"
+
 fzfHistorySearch() {
-  echo $(fc -l -n 1 | sed 's/^\s*//' | fzf --height 80% --layout reverse --no-info --border --color 'fg:#52ca51,fg+:#e04156,border:#e8cd02,info:#52ca51,pointer:#52ca51,prompt:#e04156')
+  echo $(fc -l -n 1 | sed 's/^\s*//' | fzf --height 80% --layout reverse --no-info --border --prompt="${LBUFFER}" --color 'fg:#52ca51,fg+:#e04156,border:#e8cd02,info:#52ca51,pointer:#52ca51,prompt:#e04156')
 }
 
 fzfHistoryWidget() {
@@ -50,3 +53,17 @@ fzfHistoryWidget() {
 
 zle     -N   fzfHistoryWidget
 bindkey 'hs' fzfHistoryWidget
+
+fzfGitBranchDeleteSearch() {
+  echo $(git branch --format='%(refname:short)' | fzf --height 80% --multi --layout reverse --no-info --border --prompt="git branch -D" --color 'fg:#52ca51,fg+:#e04156,border:#e8cd02,info:#52ca51,pointer:#52ca51,prompt:#e04156')
+}
+
+fzfGitBranchDeleteSearchWidget() {
+  LBUFFER="git branch -D ${LBUFFER}$(fzfGitBranchDeleteSearch)"
+  local ret=$?
+  zle reset-prompt
+  return $ret
+}
+
+zle     -N   fzfGitBranchDeleteSearchWidget
+bindkey 'gd' fzfGitBranchDeleteSearchWidget
