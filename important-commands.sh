@@ -3,6 +3,7 @@ mysql -u USER -p
 mysqldump --all-databases > all_databases.sql -u USER -p
 mysqldump --databases database_one database_two > two_databases.sql -u USER -p
 mysqldump -u User -pPASSWORD --all-databases > all_databases.sql
+sudo mysql -uDemoUser -pDemoPassword --database=DemoDB --host=<add your connection endpoint here> < backup.sql 
 
 # create all databases db backup
 mysqldump -u sdeli -pdalias19 --databases $(mysql -usdeli -pdalias19 -e 'show databases' | grep -v 'Database\|information_schema\|performance_schema\|sys\|mysql' | tr -s '\n' ' ') > /home/sandor/all-filtered-databases.sql
