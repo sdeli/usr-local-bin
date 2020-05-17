@@ -1,6 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 *.idea
 .idea
-apt
+/apt
 .history
 yelp
+/composer
+/mint-sha256sum

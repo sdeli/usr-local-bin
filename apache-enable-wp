@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# ADDITIONALLY:
+# YOU NEED TO ADD THIS TO THE  windows /etc.host file: !!!
+# 127.0.0.2      localhost www.wp-austria-recruitment.com wp-austria-recruitment.com
+# ::1 www.wp-austria-recruitment.com wp-austria-recruitment.com
+# DO NOT CHANGE /etc/hosts IN UBUNTU !!!
+# THERE STILL CAN BE AN ISSUE WITH APACHE CAN NOT ACCESS FILES CHECKOUT
+WP_PROJECT_NAME=wp-austria-recruitment
+
+sudo cat > "/etc/apache2/sites-available/${WP_PROJECT_NAME}_wordpress.conf" << EOL
+<VirtualHost *:80>
+
+ServerAdmin bgfkszmsdeli@gmail.com
+ServerName ${WP_PROJECT_NAME}.com
+ServerAlias www.${WP_PROJECT_NAME}.com
+DocumentRoot /var/www/${WP_PROJECT_NAME}
+
+ErrorLog ${APACHE_LOG_DIR}/${WP_PROJECT_NAME}.com_error.log
+CustomLog ${APACHE_LOG_DIR}/${WP_PROJECT_NAME}.com_access.log combined
+
+</VirtualHost>
+EOL
+
+sudo a2enmod rewrite
+sudo a2ensite "${WP_PROJECT_NAME}_wordpress.conf"
+sudo apache2ctl configtest
+sudo service apache2 restart
+
+# sudo chown -R www-data:www-data "/var/www/${WP_PROJECT_NAME}/"
+# sudo chown -R sandor:sandor "/var/www/${WP_PROJECT_NAME}/"
+# sudo find "/var/www/${WP_PROJECT_NAME}/" -type d -exec chmod 750 {} \;
+# sudo find "/var/www/${WP_PROJECT_NAME}/" -type f -exec chmod 640 {} \;
+
+echo "
+ADDITIONALLY:
+YOU NEED TO ADD THIS TO THE  windows /etc.host file: !!!
+127.0.0.2      localhost www.wp-austria-recruitment.com wp-austria-recruitment.com
+::1 www.wp-austria-recruitment.com wp-austria-recruitment.com
+DO NOT CHANGE /etc/hosts IN UBUNTU !!!
+THERE STILL CAN BE AN ISSUE WITH APACHE CAN NOT ACCESS FILES CHECKOUT
+"

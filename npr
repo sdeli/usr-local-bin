@@ -1,3 +1,4 @@
+#!/bin/sh
 #npm run $(cat package.json | jq '.scripts' | grep -o "\"\w.*\":" | sed 's/\"/ /g' | sed 's/\s://g' | sed 's/ //g' | fzf --height 60% --layout reverse --no-info --border --color 'fg:#52ca51,fg+:#e04156,border:#e8cd02,info:#52ca51,pointer:#52ca51,prompt:#e04156' --prompt='npm run ')
 #!/bin/bash
 # for the chosen command to be in the command history you need to set: PROMPT_COMMAND="history -a; history -r" in .bashrc

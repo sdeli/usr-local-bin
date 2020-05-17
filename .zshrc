@@ -23,8 +23,10 @@ antigen apply
 source $ZSH/oh-my-zsh.sh
 
 custom_fzf() {
-   find * -type f | fzf --height 80% --reverse --border
+   find * | fzf --height 80% --reverse --border
 }
+
+FZF_CTRL_T_COMMAND="find /home/sandor/ /var/www /usr/local/bin"
 
 zle -N custom_fzf_widget custom_fzf
 
