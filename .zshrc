@@ -94,4 +94,4 @@ fzfGitBranchCheckoutSearchWidget() {
 }
 
 zle     -N   fzfGitBranchCheckoutSearchWidget
-bindkey 'ge' fzfGitBranchCheckoutSearchWidget
+bindkey 'gt' fzfGitBranchCheckoutSearchWidget

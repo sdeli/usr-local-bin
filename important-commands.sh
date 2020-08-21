@@ -48,3 +48,5 @@ kubectl get secret -n default holidays-to-excel-db-secret -o json | jq '.data | 
 
 # forward db port to localhost
 kubectl port-forward -n db sts/postgres 5432:5432
+
+for i in 1 2 3 4 5; do; curl http://localhost:3000/test\ ;done;
