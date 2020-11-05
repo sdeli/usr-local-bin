@@ -1,0 +1,2 @@
+JIRA_TICKET_NUMBER="$(git rev-parse --abbrev-ref HEAD | sed 's/.*\(NDEV\-[0-9]\{3\}\)$/\1/g')"
+open https://cloudstorm.atlassian.net/jira/software/projects/NDEV/boards/31\?assignee\=5dc0339a16a90b0df7c6c781\&selectedIssue\="${JIRA_TICKET_NUMBER}"
