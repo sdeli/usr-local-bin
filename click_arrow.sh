@@ -21,4 +21,4 @@ sleep 0.2
 sleep 0.2
 /Users/sandordeli/bin/cliclick c:209,139
 sleep 0.2
-/Users/sandordeli/bin/cliclick m:787,580
+/Users/sandordeli/bin/cliclick m:800,580
