@@ -8,7 +8,12 @@
 
 // Modifier keys are strongly typed to prevent typos
 const cmdOptCtrl: ModString[] = ['command', 'option', 'control']
+
 const STEP_SIZE = 20;
+const DISPLAY_WIDTH = 1792;
+const WINDOW_MIN_WIDTH = 501;
+const WINDOW_MAX_WIDTH = 1291;
+
 let moveToRightActive = false;
 let moveToLeftActive = false;
 
@@ -21,41 +26,41 @@ enum Direction {
 interface SplitScreen {
   left?: Window,
   right?: Window,
- }
+}
+
 
 Hotkey.activate(cmdOptCtrl, '.', () => {
   if (!moveToLeftActive) {
     moveToLeftActive = true;
     moveSideBySideWindowsToLeft();
-      moveToLeftActive = false;
+    moveToLeftActive = false;
   }
 });
 
 Hotkey.activate(cmdOptCtrl, '/', () => {
   if (!moveToRightActive) {
-    moveToRightActive = true; 
+    moveToRightActive = true;
     moveSideBySideWindowsToRight();
-    moveToRightActive = false; 
+    moveToRightActive = false;
   }
 });
 
-function moveSideBySideWindowsToLeft() { 
+function moveSideBySideWindowsToLeft() {
   const { left, right } = getLeftAndRightWindow();
 
-  if (left) { 
+  if (left) {
     const size = left.size();
-    if ((size.width - STEP_SIZE) <= 501) return;
-  
+    if ((size.width - STEP_SIZE) <= WINDOW_MIN_WIDTH) return;
+
     left.setSize({
       height: size.height,
       width: size.width - STEP_SIZE,
     });
-    console.log('left')
   }
 
   if (right) {
     const size = right.size()
-    if (size.width + STEP_SIZE >= 1175) return;
+    if (size.width + STEP_SIZE >= WINDOW_MAX_WIDTH) return;
 
     const position = right.position();
     right.setPosition({
@@ -74,7 +79,7 @@ function moveSideBySideWindowsToRight() {
 
   if (left) {
     const size = left.size()
-    if ((size.width + STEP_SIZE) >= 1175) return;
+    if ((size.width + STEP_SIZE) >= WINDOW_MAX_WIDTH) return;
 
     const position = left.position();
     left.setSize({
@@ -85,7 +90,7 @@ function moveSideBySideWindowsToRight() {
 
   if (right) {
     const size = right.size();
-    if ((size.width - STEP_SIZE) <= 500) return;
+    if ((size.width - STEP_SIZE) <= WINDOW_MIN_WIDTH) return;
     right.setSize({
       height: size.height,
       width: size.width - STEP_SIZE,
@@ -113,7 +118,7 @@ function getLeftAndRightWindow(): SplitScreen {
 
     const hasRightMostWindow =
       !splitScreen.right &&
-      (window.size().width + window.position().x) === 1680 &&
+      (window.size().width + window.position().x) === DISPLAY_WIDTH &&
       window.isVisible();
     if (hasRightMostWindow) {
       splitScreen.right = window;

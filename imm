@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+/Users/sandordeli/.nvm/versions/node/v14.17.0/bin/node /Users/sandordeli/Projects/helpers/dist/image-processor.js
+# osascript -e "say \"$?\" using \"Victoria\""
+osascript -e 'display notification "Images minified!" with title "png-to-jpg" sound name "frog"'

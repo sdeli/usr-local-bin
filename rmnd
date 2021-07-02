@@ -1,1 +1,1 @@
-osascript /Users/sandordeli/Projects/usr-local-bin/add-reminder.scpt
+osascript $HOME/Projects/usr-local-bin/add-reminder.scpt

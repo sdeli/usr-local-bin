@@ -8,7 +8,7 @@ screencapture -t jpg $SCREENSHOT_FILE_PATH
 open -a Preview $SCREENSHOT_FILE_PATH
 
 FRONT_WINDOW_NAME=`osascript -e "tell application \"Preview\" to get the name of front window"`
-
+sleep 0.5
 if [ "$SCREENSHOT_FILE_NAME" != "$FRONT_WINDOW_NAME" ]; then
   osascript -e "say \"something has gone here wrong\" using \"Victoria\""
   exit 1
