@@ -31,7 +31,7 @@ PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$HOME
 alias myip="curl http://ipecho.net/plain; echo"
 alias gcm="git checkout master"
 alias amm="git commit --amend --no-edit; git push origin HEAD -f"
-export FZF_CTRL_T_COMMAND='find ~/Projects ~/Downloads ~/Documents ~/Desktop ~/screenshots ~/Desktop'
+export FZF_CTRL_T_COMMAND='find ~/Projects ~/Downloads ~/Documents ~/Desktop ~/screenshots ~/Desktop ~/.hammerspoon ~/.vscode ~/.ssh ~/.zshrc'
 
 # FZF SETUP =============
 # custom_fzf() {

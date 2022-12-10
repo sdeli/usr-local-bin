@@ -1,0 +1,120 @@
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# basic tools
+brew install "curl"
+brew install "wget"
+brew install "bash"
+brew install "bash-completion"
+brew update
+# brew install "zsh-completions"
+brew install "coreutils"
+brew install "binutils"
+brew install "findutils"
+brew install "moreutils"
+brew install "diffutils"
+brew install "grep"
+brew install "gawk"
+brew install "gnu-sed"
+brew install "make"
+brew install "jq"
+brew install nvm
+# brew "zsh"
+# working with git
+brew "git"
+#brew "hub"
+#brew "tig"
+#brew "diff-so-fancy"
+# brew "fzf"
+brew "gnupg"
+# brew install cliclick
+brew install php && brew install autoconf
+brew install shivammathur/php/php@7.4
+brew unlink php && brew link --overwrite --force php@7.4 
+pecl install xdebug
+# brew "pinentry-mac"
+
+# install composer globally
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
+mv composer.phar /usr/local/bin/composer
+
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+php wp-cli.phar --info
+chmod +x wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+# various
+# brew "vim"
+# brew install "antigen"
+tap "homebrew/cask-fonts"
+brew install --cask "font-hack-nerd-font"
+brew install "postgresql"
+brew install mysql
+brew install httpd
+apachectl restart
+brew services restart httpd
+# brew "asdf"
+# brew install "direnv"
+# brew install "pre-commit"
+# brew "dnsmasq"
+# brew "nginx"
+# brew "mkcert"
+
+# docker
+# brew "hyperkit"
+
+# kubernetes
+# brew "kubernetes-cli"
+# brew "kustomize"
+# brew "skaffold"
+# brew "kubectx"
+# brew "minikube"
+
+# aws
+# brew "awscli"
+# cask "aws-vault"
+# brew "docker-credential-helper-ecr"
+
+# other apps
+brew install --cask iterm2
+# cask "authy"
+# cask "pgadmin4"
+
+brew install phpmyadmin
+brew install --cask "slack"
+brew install --cask skype
+brew install --cask viber
+
+brew install --cask "visual-studio-code"
+brew install --cask alfred 
+# brew install --cask karabiner-elements
+brew install --cask firefox
+brew install --cask gimp
+brew install --cask menumeters
+brew install --cask hammerspoon
+brew install --cask mission-control-plus
+brew install --cask swish
+brew install --cask autumn
+brew install --cask loom
+brew install --cask sip
+# brew install --cask contexts
+brew install --cask witch
+brew install --cask microsoft-teams
+brew install --cask middle
+
+git clone https://github.com/sdeli/hammerspoon.git "$HOME/.hammerspoon"
+
+defaults write com.apple.Finder AppleShowAllFiles true
+killall Finder
+defaults write com.apple.finder QuitMenuItem -bool YES && killall Finder
+defaults write com.apple.dock autohide-delay -float 0; killall Dock
+defaults write com.apple.dock autohide-time-modifier -float 0.1; killall Dock
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | shasum -a 256 --check
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl
+ chown root: /usr/local/bin/kubectl
+
+brew install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
