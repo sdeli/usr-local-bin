@@ -20,6 +20,7 @@ plugins=(
     node
     zsh-autosuggestions
     zsh-syntax-highlighting
+    doctl
 )
 
 source $ZSH/oh-my-zsh.sh

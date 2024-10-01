@@ -68,7 +68,9 @@ brew services restart httpd
 # brew "skaffold"
 # brew "kubectx"
 # brew "minikube"
-
+brew install ngrok/ngrok/ngrok
+brew install cocoapods
+brew install rbenv
 # aws
 # brew "awscli"
 # cask "aws-vault"
@@ -97,9 +99,12 @@ brew install --cask autumn
 brew install --cask loom
 brew install --cask sip
 # brew install --cask contexts
-brew install --cask witch
+# brew install --cask witch
 brew install --cask microsoft-teams
 brew install --cask middle
+brew install --cask alt-tab
+brew install --cask local
+brew install --cask sublime-text
 
 git clone https://github.com/sdeli/hammerspoon.git "$HOME/.hammerspoon"
 
@@ -118,3 +123,6 @@ mv ./kubectl /usr/local/bin/kubectl
 
 brew install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+goodtestpassword
+admin
