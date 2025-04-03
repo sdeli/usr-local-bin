@@ -1,91 +1,3 @@
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# basic tools
-brew install "curl"
-brew install "wget"
-brew install "bash"
-brew install "bash-completion"
-brew update
-# brew install "zsh-completions"
-brew install "coreutils"
-brew install "binutils"
-brew install "findutils"
-brew install "moreutils"
-brew install "diffutils"
-brew install "grep"
-brew install "gawk"
-brew install "gnu-sed"
-brew install "make"
-brew install "jq"
-brew install nvm
-# brew "zsh"
-# working with git
-brew "git"
-#brew "hub"
-#brew "tig"
-#brew "diff-so-fancy"
-# brew "fzf"
-brew "gnupg"
-# brew install cliclick
-brew install php && brew install autoconf
-brew install shivammathur/php/php@7.4
-brew unlink php && brew link --overwrite --force php@7.4 
-pecl install xdebug
-# brew "pinentry-mac"
-
-# install composer globally
-curl -sS https://getcomposer.org/installer | php
-php composer.phar install
-mv composer.phar /usr/local/bin/composer
-
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-php wp-cli.phar --info
-chmod +x wp-cli.phar
-mv wp-cli.phar /usr/local/bin/wp
-# various
-# brew "vim"
-# brew install "antigen"
-tap "homebrew/cask-fonts"
-brew install --cask "font-hack-nerd-font"
-brew install "postgresql"
-brew install mysql
-brew install httpd
-apachectl restart
-brew services restart httpd
-# brew "asdf"
-# brew install "direnv"
-# brew install "pre-commit"
-# brew "dnsmasq"
-# brew "nginx"
-# brew "mkcert"
-
-# docker
-# brew "hyperkit"
-
-# kubernetes
-# brew "kubernetes-cli"
-# brew "kustomize"
-# brew "skaffold"
-# brew "kubectx"
-# brew "minikube"
-brew install ngrok/ngrok/ngrok
-brew install cocoapods
-brew install rbenv
-# aws
-# brew "awscli"
-# cask "aws-vault"
-# brew "docker-credential-helper-ecr"
-
-# other apps
-brew install --cask iterm2
-# cask "authy"
-# cask "pgadmin4"
-
-brew install phpmyadmin
-brew install --cask "slack"
-brew install --cask skype
-brew install --cask viber
-
 brew install --cask "visual-studio-code"
 brew install --cask alfred 
 # brew install --cask karabiner-elements
@@ -105,6 +17,7 @@ brew install --cask middle
 brew install --cask alt-tab
 brew install --cask local
 brew install --cask sublime-text
+brew install --cask dbeaver-community
 
 git clone https://github.com/sdeli/hammerspoon.git "$HOME/.hammerspoon"
 
@@ -123,6 +36,3 @@ mv ./kubectl /usr/local/bin/kubectl
 
 brew install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-goodtestpassword
-admin
